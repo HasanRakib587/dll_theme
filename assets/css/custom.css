@@ -27,6 +27,10 @@ article img {
     padding-left: 1em;
 }
 
+.footer-menu ul {
+    list-style: none;
+}
+
 .footer-menu li a {
     text-decoration: none;
     color: gray;
