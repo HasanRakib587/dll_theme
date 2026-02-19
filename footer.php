@@ -5,7 +5,7 @@
                 <?php 
                     wp_nav_menu( array(
                         'theme_location'    => 'footer_menu',
-                        'menu_class'        => 'navbar-nav footer-menu',
+                        'menu_class'        => 'navbar-nav footer-menu ps-0',
                     ));
                 ?>
             </div>
