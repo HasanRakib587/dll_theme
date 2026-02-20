@@ -186,90 +186,86 @@
 </section>
 
 <!-- Archives -->
-<section>
-  <div class="container">
-    <hr>
-    <div class="row gap-5 justify-content-center">
+<?php 
+  $args = array(
+    'post_type'      => 'post',
+    'posts_per_page' => 6,
+    'post_status'    => 'publish',
+    'category_name'  => 'archive'
+  );
 
-      <h1 class="text-center my-5">From the archives</h1>
-
-      <?php
-      $args = array(
-        'post_type'      => 'post',
-        'posts_per_page' => 6,
-        'post_status'    => 'publish',
-        'category_name'  => 'archive'
-      );
-
-      $archive_query = new WP_Query($args);
-
-      if ($archive_query->have_posts()) :
-        while ($archive_query->have_posts()) :
-          $archive_query->the_post();
-      ?>
-
-        <div class="col-md-3">
-          <div class="card text-center rounded-0 border-0">
-
-            <!-- Featured Image -->
-            <a href="<?php the_permalink(); ?>">
-              <?php if (has_post_thumbnail()) :
-                the_post_thumbnail('medium', ['class' => 'card-img-top']);
-              else : ?>
-                <img src="<?php echo get_template_directory_uri(); ?>/images/archive-feat.png"
-                     class="card-img-top" alt="">
-              <?php endif; ?>
-            </a>
-
-            <div class="card-body">
-
-              <!-- Category (first category except archive) -->
-              <h6>
-                <?php
-                  $categories = get_the_category();
-                  foreach ($categories as $cat) {
-                    if ($cat->slug !== 'archive') {
-                      echo '<a class="text-decoration-none my-5" href="' 
-                           . get_category_link($cat->term_id) . '">' 
-                           . esc_html($cat->name) . '</a>';
-                      break;
-                    }
-                  }
-                ?>
-              </h6>
-
-              <h5 class="card-title">
-                <a href="<?php the_permalink(); ?>" class="text-decoration-none text-dark">
-                  <?php the_title(); ?>
-                </a>
-              </h5>
-
-              <p class="card-text">
-                <?php echo wp_trim_words(get_the_excerpt(), 15); ?>
-              </p>
-
-              <a href="<?php comments_link(); ?>" class="btn">
-                <?php comments_number(
-                  '<span class="text-danger">0</span> comments',
-                  '<span class="text-danger">1</span> comment',
-                  '<span class="text-danger">%</span> comments'
-                ); ?>
+  $archive_query = new WP_Query($args);
+?>
+<?php if($archive_query->have_posts()) : ?>
+  <section>
+    <div class="container">
+      <hr>
+      <div class="row gap-5 justify-content-center">
+        <h1 class="text-center my-5">From the archives</h1>
+        <?php
+        if ($archive_query->have_posts()) :
+          while ($archive_query->have_posts()) :
+            $archive_query->the_post();
+        ?>
+          <div class="col-md-3">
+            <div class="card text-center rounded-0 border-0">
+  
+              <!-- Featured Image -->
+              <a href="<?php the_permalink(); ?>">
+                <?php if (has_post_thumbnail()) :
+                  the_post_thumbnail('medium', ['class' => 'card-img-top']);
+                else : ?>
+                  <img src="<?php echo get_template_directory_uri(); ?>/images/archive-feat.png" class="card-img-top" alt="">
+                <?php endif; ?>
               </a>
-
+  
+              <div class="card-body">
+  
+                <!-- Category (first category except archive) -->
+                <h6>
+                  <?php
+                    $categories = get_the_category();
+                    foreach ($categories as $cat) {
+                      if ($cat->slug !== 'archive') {
+                        echo '<a class="text-decoration-none my-5" href="' 
+                            . get_category_link($cat->term_id) . '">' 
+                            . esc_html($cat->name) . '</a>';
+                        break;
+                      }
+                    }
+                  ?>
+                </h6>
+  
+                <h5 class="card-title">
+                  <a href="<?php the_permalink(); ?>" class="text-decoration-none text-dark">
+                    <?php the_title(); ?>
+                  </a>
+                </h5>
+  
+                <p class="card-text">
+                  <?php echo wp_trim_words(get_the_excerpt(), 15); ?>
+                </p>
+  
+                <a href="<?php comments_link(); ?>" class="btn">
+                  <?php comments_number(
+                    '<span class="text-danger">0</span> comments',
+                    '<span class="text-danger">1</span> comment',
+                    '<span class="text-danger">%</span> comments'
+                  ); ?>
+                </a>
+  
+              </div>
             </div>
           </div>
-        </div>
-
-      <?php
-        endwhile;
-        wp_reset_postdata();
-      else :
-        echo '<p class="text-center">No archived posts found.</p>';
-      endif;
-      ?>
-
-    </div>
-  </div>
-</section>
+        <?php
+          endwhile;
+          wp_reset_postdata();
+        else :
+          echo '<p class="text-center">No archived posts found.</p>';
+        endif;
+        ?>
+      </div>  
+  </section>
+<?php endif ?>
 
 <?php get_footer(); ?>
